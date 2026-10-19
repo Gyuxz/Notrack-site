@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101112">
+  <meta name="description" content="Notrack — aprenda programação, desenvolvimento de ferramentas para jogos e engenharia reversa responsável.">
+  <title>Notrack — Software Engineering</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #101112;
+      --panel: #171819;
+      --panel-2: #1d1e20;
+      --text: #f4f4f2;
+      --muted: #a5a6a8;
+      --line: #303133;
+      --accent: #f4f4f2;
+      --max: 1160px;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6; -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; }
+    .container { width: min(var(--max), calc(100% - 40px)); margin-inline: auto; }
+    .topline { border-bottom: 1px solid var(--line); color: var(--muted); font-size: .76rem; letter-spacing: .08em; text-transform: uppercase; }
+    .topline .container { min-height: 34px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    header { position: sticky; top: 0; z-index: 20; background: rgba(16,17,18,.96); border-bottom: 1px solid var(--line); backdrop-filter: blur(12px); }
+    .nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; flex-shrink: 0; }
+    .brand-mark { width: 38px; height: 38px; display: grid; place-items: center; background: var(--text); color: var(--bg); border-radius: 9px; }
+    .brand-mark svg { width: 23px; height: 23px; }
+    .brand-name { font-size: 1.08rem; line-height: 1.05; font-weight: 800; letter-spacing: .13em; }
+    .brand-sub { display: block; margin-top: 5px; color: var(--muted); font-size: .61rem; font-weight: 500; letter-spacing: .11em; }
+    .nav-links { display: flex; align-items: center; gap: 28px; color: #c4c4c5; font-size: .9rem; }
+    .nav-links a:hover, .footer-links a:hover { color: white; }
+    .nav-cta, .button { display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 11px 16px; border: 1px solid var(--line); border-radius: 9px; font-weight: 650; font-size: .9rem; transition: background .2s, color .2s, border-color .2s; cursor: pointer; }
+    .nav-cta, .button-primary { color: #111; background: var(--accent); border-color: var(--accent); }
+    .nav-cta:hover, .button-primary:hover { background: #d8d8d6; }
+    .button-secondary { background: transparent; color: var(--text); }
+    .button-secondary:hover { background: var(--panel-2); border-color: #555; }
+    .menu-toggle { display: none; border: 1px solid var(--line); background: var(--panel); color: white; width: 43px; height: 43px; border-radius: 9px; cursor: pointer; }
+    .hero { padding: 92px 0 74px; border-bottom: 1px solid var(--line); }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; align-items: center; gap: 64px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: #c9c9c9; font-size: .76rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 22px; height: 1px; background: #e8e8e6; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 720px; margin: 20px 0; font-size: clamp(2.7rem, 5.6vw, 5rem); line-height: 1.02; letter-spacing: -.065em; font-weight: 760; }
+    h1 span { color: #9d9ea0; }
+    .hero-copy { max-width: 590px; color: #b5b6b7; font-size: 1.08rem; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 29px; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 35px; color: #929395; font-size: .78rem; }
+    .hero-meta span { display: inline-flex; align-items: center; gap: 7px; }
+    .dot { width: 5px; height: 5px; border-radius: 50%; background: #e7e7e5; }
+    .code-window { border: 1px solid #343537; border-radius: 14px; overflow: hidden; background: #151617; box-shadow: 0 22px 60px rgba(0,0,0,.2); }
+    .window-bar { display: flex; align-items: center; gap: 7px; padding: 14px 17px; border-bottom: 1px solid #303133; color: #858689; font-size: .75rem; }
+    .window-dot { width: 7px; height: 7px; border-radius: 50%; background: #66676a; }
+    .window-file { margin-left: auto; }
+    .code-body { padding: 25px 22px 28px; overflow: auto; }
+    .code-label { margin-bottom: 17px; color: #9a9b9d; font-size: .72rem; letter-spacing: .1em; }
+    pre { margin: 0; color: #e6e6e4; font: 500 .88rem/1.9 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; white-space: pre; }
+    .code-muted { color: #77797c; }
+    .code-white { color: #fff; }
+    .code-soft { color: #c0c1c2; }
+    .code-footer { display: flex; justify-content: space-between; gap: 10px; padding: 12px 17px; border-top: 1px solid #303133; color: #8d8e90; font-size: .72rem; }
+    .section { padding: 86px 0; border-bottom: 1px solid var(--line); }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 28px; margin-bottom: 34px; }
+    .section-kicker { color: #9c9d9f; font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    h2 { margin: 9px 0 0; font-size: clamp(2rem, 3.5vw, 3rem); line-height: 1.1; letter-spacing: -.045em; }
+    .section-intro { max-width: 450px; margin: 0; color: var(--muted); font-size: .96rem; }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .card { min-height: 238px; padding: 24px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); display: flex; flex-direction: column; align-items: flex-start; }
+    .card-icon { display: grid; place-items: center; width: 43px; height: 43px; margin-bottom: 23px; border: 1px solid #3a3b3d; border-radius: 10px; color: #f0f0ee; }
+    .card-icon svg { width: 21px; height: 21px; }
+    .card h3 { margin: 0 0 9px; font-size: 1.12rem; letter-spacing: -.02em; }
+    .card p { margin: 0; color: var(--muted); font-size: .89rem; }
+    .card-tag { margin-top: auto; padding-top: 22px; color: #a6a7a9; font: .72rem ui-monospace, monospace; letter-spacing: .04em; }
+    .path-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 54px; align-items: start; }
+    .path-aside { position: sticky; top: 120px; }
+    .path-aside p { margin-top: 17px; color: var(--muted); }
+    .path-list { border-top: 1px solid var(--line); }
+    .path-item { display: grid; grid-template-columns: 45px 1fr auto; gap: 17px; align-items: start; padding: 23px 0; border-bottom: 1px solid var(--line); }
+    .path-number { color: #77797b; font: .8rem ui-monospace, monospace; padding-top: 3px; }
+    .path-item h3 { margin: 0 0 5px; font-size: 1rem; }
+    .path-item p { margin: 0; color: var(--muted); font-size: .88rem; }
+    .path-level { color: #9a9b9d; font-size: .72rem; border: 1px solid var(--line); padding: 4px 8px; border-radius: 6px; white-space: nowrap; }
+    .manifesto { background: #e9e9e7; color: #141516; border-radius: 16px; padding: clamp(27px, 5vw, 58px); display: grid; grid-template-columns: .8fr 1.2fr; gap: 45px; align-items: start; }
+    .manifesto .section-kicker { color: #666; }
+    .manifesto h2 { max-width: 400px; }
+    .manifesto p { margin: 0; color: #4d4e50; font-size: 1.05rem; }
+    .manifesto strong { color: #111; }
+    .cta-section { padding: 78px 0; }
+    .cta-box { display: flex; align-items: center; justify-content: space-between; gap: 28px; border: 1px solid var(--line); border-radius: 14px; padding: clamp(24px, 4vw, 42px); background: var(--panel); }
+    .cta-box h2 { margin-bottom: 10px; font-size: clamp(1.8rem, 3vw, 2.5rem); }
+    .cta-box p { margin: 0; color: var(--muted); }
+    footer { border-top: 1px solid var(--line); padding: 28px 0; }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+    .footer-copy { color: #8e8f91; font-size: .78rem; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 20px; color: #b8b9bb; font-size: .82rem; }
+    .notice { margin-top: 22px; color: #77797b; font-size: .75rem; }
+    @media (max-width: 900px) {
+      .hero { padding-top: 68px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+      .code-window { max-width: 650px; }
+      .cards { grid-template-columns: repeat(2, 1fr); }
+      .path-grid { grid-template-columns: 1fr; gap: 28px; }
+      .path-aside { position: static; }
+      .manifesto { grid-template-columns: 1fr; gap: 22px; }
+    }
+    @media (max-width: 640px) {
+      .container { width: min(var(--max), calc(100% - 32px)); }
+      .topline .container { justify-content: center; text-align: center; font-size: .65rem; }
+      .topline .container span:last-child { display: none; }
+      .nav { min-height: 67px; }
+      .menu-toggle { display: grid; place-items: center; }
+      .nav-cta { display: none; }
+      .nav-links { display: none; position: absolute; top: 67px; left: 0; right: 0; padding: 13px 20px 20px; background: #101112; border-bottom: 1px solid var(--line); flex-direction: column; align-items: stretch; gap: 0; }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 13px 4px; border-bottom: 1px solid #262729; }
+      .nav-links a:last-child { border-bottom: 0; }
+      .hero { padding: 55px 0 52px; }
+      h1 { font-size: clamp(2.65rem, 13vw, 4rem); }
+      .hero-copy { font-size: 1rem; }
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .hero-actions .button { width: 100%; }
+      .hero-meta { gap: 11px 15px; margin-top: 26px; }
+      .code-body { padding: 20px 15px; }
+      pre { font-size: .76rem; }
+      .section { padding: 61px 0; }
+      .section-head { align-items: flex-start; flex-direction: column; gap: 14px; margin-bottom: 25px; }
+      .cards { grid-template-columns: 1fr; }
+      .card { min-height: 205px; }
+      .path-item { grid-template-columns: 30px 1fr; gap: 12px; }
+      .path-level { grid-column: 2; justify-self: start; }
+      .manifesto { padding: 26px 22px; }
+      .cta-section { padding: 52px 0; }
+      .cta-box { align-items: stretch; flex-direction: column; }
+      .cta-box .button { width: 100%; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+      .footer-links { gap: 14px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topline">
+    <div class="container"><span>Independent software education</span><span>Aprenda. Analise. Desenvolva.</span></div>
+  </div>
+  <header>
+    <nav class="container nav" aria-label="Navegação principal">
+      <a class="brand" href="#inicio" aria-label="Notrack, início">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 18V6h3l8 9V6h3v12h-3L8 9v9H5Z" fill="currentColor"/></svg>
+        </span>
+        <span><span class="brand-name">NOTRACK</span><span class="brand-sub">SOFTWARE ENGINEERING</span></span>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="#areas">Áreas de estudo</a>
+        <a href="#trilha">Trilha de aprendizado</a>
+        <a href="#sobre">Sobre</a>
+      </div>
+      <a class="nav-cta" href="#comunidade">Conheça a Notrack <span aria-hidden="true">↗</span></a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="navLinks">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">Programação · Pesquisa · Desenvolvimento</div>
+          <h1>Go beyond<br>the <span>source.</span></h1>
+          <p class="hero-copy">Aprenda a programar, entenda como os sistemas funcionam e desenvolva suas próprias ferramentas. Conhecimento técnico, projetos práticos e curiosidade sem atalhos.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#areas">Explorar áreas de estudo <span aria-hidden="true">↗</span></a>
+            <a class="button button-secondary" href="#trilha">Ver trilha de aprendizado</a>
+          </div>
+          <div class="hero-meta">
+            <span><i class="dot"></i> Projetos práticos</span>
+            <span><i class="dot"></i> Múltiplas linguagens</span>
+            <span><i class="dot"></i> Aprendizado contínuo</span>
+          </div>
+        </div>
+        <div class="code-window" aria-label="Exemplo de código C++">
+          <div class="window-bar"><i class="window-dot"></i><i class="window-dot"></i><i class="window-dot"></i><span class="window-file">hello.cpp</span></div>
+          <div class="code-body">
+            <div class="code-label">SEU PRÓXIMO PROJETO COMEÇA AQUI</div>
+            <pre><span class="code-muted">#include</span> <span class="code-soft">&lt;iostream&gt;</span>
+
+<span class="code-white">int</span> main() {
+    std::cout &lt;&lt; <span class="code-soft">"Hello, Notrack."</span>;
+    <span class="code-white">return</span> 0;
+}</pre>
+          </div>
+          <div class="code-footer"><span> C++ · FUNDAMENTOS</span><span>01 / 05</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="areas">
+      <div class="container">
+        <div class="section-head">
+          <div><div class="section-kicker">01 / Áreas de estudo</div><h2>Conhecimento que<br>vira ferramenta.</h2></div>
+          <p class="section-intro">Do primeiro script à análise de sistemas: construa uma base sólida e aprenda a resolver problemas reais, passo a passo.</p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 4l-4 16"/></svg></div>
+            <h3>C++ & C#</h3><p>Fundamentos, estruturas de dados, memória, orientação a objetos e ferramentas de alto desempenho.</p><div class="card-tag">/ LANGUAGES</div>
+          </article>
+          <article class="card">
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M8 5 3 12l5 7M16 5l5 7-5 7M14 3l-4 18"/></svg></div>
+            <h3>Lua, Java & JavaScript</h3><p>Scripts, automação, aplicações, mods e interfaces para projetos de software e jogos.</p><div class="card-tag">/ SCRIPTING</div>
+          </article>
+          <article class="card">
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><path d="m9 9 6 6M15 9l-6 6"/></svg></div>
+            <h3>Desenvolvimento para jogos</h3><p>Experimente mecânicas, mods, ferramentas auxiliares e protótipos em ambientes próprios ou autorizados.</p><div class="card-tag">/ GAME DEVELOPMENT</div>
+          </article>
+          <article class="card">
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4M9 11h4M11 9v4"/></svg></div>
+            <h3>Engenharia reversa</h3><p>Aprenda a observar o comportamento de programas, estudar formatos e analisar binários com permissão.</p><div class="card-tag">/ RESEARCH</div>
+          </article>
+          <article class="card">
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 20 6v5c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-3Z"/><path d="m9 12 2 2 4-4"/></svg></div>
+            <h3>Segurança de software</h3><p>Princípios de segurança, análise defensiva, validação e compreensão de mecanismos anti-cheat.</p><div class="card-tag">/ SECURITY</div>
+          </article>
+          <article class="card">
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5M8 17h8"/></svg></div>
+            <h3>Projetos e ferramentas</h3><p>Transforme conceitos em projetos documentados, organizados e úteis para sua própria caixa de ferramentas.</p><div class="card-tag">/ BUILD</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="trilha">
+      <div class="container path-grid">
+        <div class="path-aside">
+          <div class="section-kicker">02 / Seu caminho</div>
+          <h2>Uma base forte.<br>Um passo de cada vez.</h2>
+          <p>Não precisa saber tudo para começar. Evolua dos fundamentos até projetos mais complexos no seu ritmo.</p>
+          <a class="button button-secondary" href="#comunidade">Acompanhar novidades ↗</a>
+        </div>
+        <div class="path-list">
+          <article class="path-item"><div class="path-number">01</div><div><h3>Fundamentos de programação</h3><p>Variáveis, condições, loops, funções, depuração e pensamento lógico.</p></div><span class="path-level">Iniciante</span></article>
+          <article class="path-item"><div class="path-number">02</div><div><h3>Linguagens e ferramentas</h3><p>Escolha a linguagem adequada, use um editor e aprenda a organizar seus projetos.</p></div><span class="path-level">Iniciante</span></article>
+          <article class="path-item"><div class="path-number">03</div><div><h3>Construção de projetos</h3><p>Crie scripts, aplicações, mods e ferramentas em ambientes de teste.</p></div><span class="path-level">Intermediário</span></article>
+          <article class="path-item"><div class="path-number">04</div><div><h3>Análise e segurança</h3><p>Estude comportamento de software, depuração e princípios de segurança responsável.</p></div><span class="path-level">Intermediário</span></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="sobre">
+      <div class="container">
+        <div class="manifesto">
+          <div><div class="section-kicker">03 / O princípio Notrack</div><h2>Entender é melhor do que copiar.</h2></div>
+          <p>A Notrack nasce da curiosidade por tecnologia e da vontade de entender o que existe por trás do código. Nosso foco é compartilhar conhecimento, incentivar a experimentação e ajudar pessoas a desenvolver suas próprias soluções. <strong>Estude com responsabilidade, respeite os sistemas e transforme conhecimento em habilidade.</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section" id="comunidade">
+      <div class="container">
+        <div class="cta-box">
+          <div><div class="section-kicker">Faça parte da próxima etapa</div><h2>O próximo passo é seu.</h2><p>Novidades sobre conteúdos, projetos e comunidade serão publicadas aqui.</p></div>
+          <a class="button button-primary" href="mailto:contato@notrack.example?subject=Contato%20Notrack">Entrar em contato ↗</a>
+        </div>
+        <p class="notice">Aviso: esta é a primeira versão demonstrativa. O endereço de contato acima é provisório e deve ser substituído por um e-mail real antes da publicação. Cursos, comunidade e painel administrativo ainda precisam ser conectados.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <a class="brand" href="#inicio">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 18V6h3l8 9V6h3v12h-3L8 9v9H5Z" fill="currentColor"/></svg></span>
+        <span><span class="brand-name">NOTRACK</span><span class="brand-sub">SOFTWARE ENGINEERING</span></span>
+      </a>
+      <div class="footer-links"><a href="#areas">Áreas</a><a href="#trilha">Trilha</a><a href="#sobre">Sobre</a><a href="#inicio">Voltar ao topo ↑</a></div>
+      <div class="footer-copy">© <span id="year"></span> Notrack. Todos os direitos reservados.</div>
+    </div>
+  </footer>
+  <script>
+    const toggle = document.getElementById('menuToggle');
+    const links = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+    });
+    links.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      links.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Abrir menu');
+    }));
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
